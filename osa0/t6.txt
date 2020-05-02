@@ -1,0 +1,10 @@
+note over selain: 
+selain suorittaa koodin ja lisää noten listalle ja piirtää listan
+sekä lähettää noten palvelimelle
+end note
+selain->palvelin: HTTP POST https://fullstack-exampleapp.herokuapp.com/new_note_spa
+note over palvelin:
+POST-pyynnölle asetettu header kertoo että content-type on 
+JSON-muotoista, jotta palvelin osaa parsia sen
+end note
+palvelin-->selain: HTTP status: 201 created 
