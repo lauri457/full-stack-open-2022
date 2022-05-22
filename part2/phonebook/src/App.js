@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import Persons from './components/Persons'
 import Form from './components/Form'
 import Filter from './components/Filter'
-import axios from 'axios'
+import personService from './services/persons'
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -13,15 +13,39 @@ const App = () => {
 
   const addName = (event) => {
     event.preventDefault()
-    if (typeof (persons.find(person => person.name.toLowerCase() === newName.toLowerCase())) === 'undefined') {
+    const newPerson = persons.find(person => person.name.toLowerCase() === newName.toLowerCase())
+    if (typeof (newPerson) === 'undefined') {
       const nameObject = {
         name: newName,
         number: newNumber,
-        id: persons.length + 1,
       }
-      setPersons(persons.concat(nameObject))
+      personService
+        .create(nameObject)
+        .then(returnedPerson => {
+          setPersons(persons.concat(returnedPerson))
+          setNewName('')
+          setNewNumber('')
+        })
     } else {
-      alert(`${newName} is already added to phonebook`)
+      if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
+        const updatedPerson = { ...newPerson, number: newNumber }
+        personService
+          .update(updatedPerson.id, updatedPerson)
+          .then(response => {
+            setPersons(persons.map(person => person.id !== response.id ? person : updatedPerson))
+          })
+      }
+    }
+  }
+
+  const removePerson = (id) => {
+    const person = persons.find(person => person.id === id)
+    if (window.confirm(`Delete ${person.name}?`)) {
+      personService
+        .remove(id)
+        .then((response) => {
+          setPersons(persons.filter((person) => person.id !== id))
+        })
     }
   }
 
@@ -41,11 +65,12 @@ const App = () => {
     setFilter(event.target.value)
   }
 
+
   useEffect(() => {
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        setPersons(response.data)
+    personService
+      .getAll()
+      .then(initialPersons => {
+        setPersons(initialPersons)
       })
   }, [])
 
@@ -56,7 +81,7 @@ const App = () => {
       <h2>Add new</h2>
       <Form onSubmit={addName} newName={newName} newNumber={newNumber} handleNameChange={handleNameChange} handleNumberChange={handleNumberChange} />
       <h2>Numbers</h2>
-      <Persons personsToShow={personsToShow} />
+      <Persons personsToShow={personsToShow} removePerson={removePerson} />
     </div>
   )
 }

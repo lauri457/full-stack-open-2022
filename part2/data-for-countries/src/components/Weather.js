@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios'
+
 const Weather = ({ capital }) => {
 	const [temp, setTemp] = useState('')
 	const [wind, setWind] = useState('')
