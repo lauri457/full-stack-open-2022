@@ -11,7 +11,7 @@ usersRouter.get('/', async (request, response) => {
 usersRouter.post('/', async (request, response) => {
 	const { username, name, password } = request.body
 
-	const regex = /^(.{0,3}|[^0-9]*|[^A-Z]*|[^a-z]*|[a-zA-Z0-9]*)$/
+	const regex = /^(.{0,5}|[^0-9]*|[^A-Z]*|[^a-z]*|[a-zA-Z0-9]*)$/
 	if (regex.test(password)) {
 		return response.status(400).json({ error: 'password does not match requirements' })
 	}

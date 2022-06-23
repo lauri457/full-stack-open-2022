@@ -133,7 +133,7 @@ describe('creation fails with 400 password does not match requirements', () => {
 
 		const newUser = {
 			username: 'username',
-			password: 'abcAB!1'
+			password: 'abc'
 		}
 
 		const result = await api

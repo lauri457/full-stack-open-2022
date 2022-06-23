@@ -7,12 +7,37 @@ Content-Type: application/json
 }
 
 ###
+POST http://localhost:3003/api/login
+Content-Type: application/json
+
+{
+	"username": "testuser",
+	"password": "Salasana1!"
+}
+
+###
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3R1c2VyIiwiaWQiOiI2MmIzNmFjMTJjZmNkYWNkMGEyZmIwZTEiLCJpYXQiOjE2NTU5MjkzNTh9.lcQxtmwrkEUskf_Qd8dkWX9XZFqYJWmNakRA0-V_4Xw
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im5ld3VzZXIiLCJpZCI6IjYyYjQwZjRlZDI3NTE0YzRjNTcwNzU3OSIsImlhdCI6MTY1NTk3MjYwOSwiZXhwIjoxNjU1OTcyNjEwfQ.R0n_1S7oSHq7fs0ba-WIUnBKCckW2croHViQh4JfEQU
 
 {
 	"title": "blogging in",
 	"author": "L. Ogger",
 	"url": "www.log.in"
 }
+
+
+###
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im5ld3VzZXIiLCJpZCI6IjYyYjQwZjRlZDI3NTE0YzRjNTcwNzU3OSIsImlhdCI6MTY1NTk4MjE2MywiZXhwIjoxNjU1OTgyNDYzfQ.gaR_-XAM83acNUJknCBWEh68O9p-b2-os8wLjIzuQQY
+
+{
+	"title": "testing middleware",
+	"author": "M. Iddleware",
+	"url": "www.midldewa.re"
+}
+
+###
+DELETE http://localhost:3003/api/blogs/62b40f97d27514c4c570757f
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im5ld3VzZXIiLCJpZCI6IjYyYjQwZjRlZDI3NTE0YzRjNTcwNzU3OSIsImlhdCI6MTY1NTk4MjE2MywiZXhwIjoxNjU1OTgyNDYzfQ.gaR_-XAM83acNUJknCBWEh68O9p-b2-os8wLjIzuQQY
