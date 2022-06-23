@@ -1,0 +1,18 @@
+POST http://localhost:3003/api/login
+Content-Type: application/json
+
+{
+	"username": "newuser",
+	"password": "AbC1!"
+}
+
+###
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3R1c2VyIiwiaWQiOiI2MmIzNmFjMTJjZmNkYWNkMGEyZmIwZTEiLCJpYXQiOjE2NTU5MjkzNTh9.lcQxtmwrkEUskf_Qd8dkWX9XZFqYJWmNakRA0-V_4Xw
+
+{
+	"title": "blogging in",
+	"author": "L. Ogger",
+	"url": "www.log.in"
+}
