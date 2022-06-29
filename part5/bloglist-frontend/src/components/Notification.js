@@ -1,5 +1,5 @@
 const Notification = ({ message }) => {
-	const errorRegex = /fail|Invalid/
+	const errorRegex = /fail|Invalid|malformatted|expired|only the creator/
 	if (message === null)
 		return null
 	const notificationStyle = {

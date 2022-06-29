@@ -1,26 +1,27 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import Login from './components/Login'
 import BlogList from './components/BlogList'
 import BlogForm from './components/BlogForm'
 import Notification from './components/Notification'
+import Togglable from './components/Togglable'
 
 const App = () => {
 	const [blogs, setBlogs] = useState([])
-	const [username, setUsername] = useState('testaaja')
-	const [password, setPassword] = useState('salasana')
 	const [user, setUser] = useState(null)
 	const [message, setMessage] = useState(null)
 
+	const blogFormRef = useRef()
+
 	useEffect(() => {
 		const timer = setTimeout(() => {
-			setMessage(null);
-		}, 3000);
+			setMessage(null)
+		}, 3000)
 		return () => {
-			clearTimeout(timer);
-		};
-	}, [message]);
+			clearTimeout(timer)
+		}
+	}, [message])
 
 	useEffect(() => {
 		blogService.getAll().then(blogs =>
@@ -37,9 +38,7 @@ const App = () => {
 		}
 	}, [])
 
-	const handleLogin = async (event) => {
-		event.preventDefault()
-
+	const handleLogin = async (username, password) => {
 		try {
 			const user = await loginService.login({
 				username, password,
@@ -49,8 +48,7 @@ const App = () => {
 			)
 			blogService.setToken(user.token)
 			setUser(user)
-			setUsername('')
-			setPassword('')
+
 			setMessage(`${user.username} logged in`)
 		} catch (exception) {
 			setMessage('Invalid credentials')
@@ -62,6 +60,7 @@ const App = () => {
 			const blog = await blogService.create({
 				title, author, url
 			})
+			blogFormRef.current.toggleVisibility()
 			setBlogs(blogs.concat(blog))
 			setMessage(`A new blog ${title} by ${author} added`)
 		} catch (exception) {
@@ -69,34 +68,56 @@ const App = () => {
 		}
 	}
 
-	const handleLogout = (event) => {
+	const handleLogout = () => {
 		const user = JSON.parse(window.localStorage.getItem('loggedBlogappuser'))
-		console.log(user['username'])
 		window.localStorage.removeItem('loggedBlogappuser')
 		setUser(null)
 		setMessage(`${user.username} logged out`)
 	}
 
+	const handleUpdateLikes = async (id, blogToUpdate) => {
+		try {
+			const updatedBlog = await blogService.update(id, blogToUpdate)
+			const newBlogs = blogs.map(blog => blog.id === id ? updatedBlog : blog)
+			setBlogs(newBlogs)
+		} catch (exception) {
+			setMessage(exception.response.data.error)
+		}
+	}
+
+	const deleteBlog = async (id) => {
+		try {
+			await blogService.remove(id)
+			const updatedBlogs = blogs.filter(blog => blog.id !== id)
+			setBlogs(updatedBlogs)
+			setMessage('blog deleted')
+		} catch (exception) {
+			setMessage(exception.response.data.error)
+		}
+	}
+
 	const loginForm = () => {
 		return (
-			<div>
+			<>
 				<h2>Log in to application</h2>
-				<Notification message={message}/>
-				<Login handleLogin={handleLogin} setPassword={setPassword}
-					setUsername={setUsername} username={username} password={password} />
-			</div >
+				<Notification message={message} />
+				<Login handleLogin={handleLogin} />
+			</ >
 		)
 	}
 
 	const blogList = () => {
 		return (
-			<div>
+			<>
 				<h2>Blogs</h2>
 				<Notification message={message} />
 				<p>{user.name} logged in <button onClick={handleLogout} >logout</button></p>
-				<BlogForm createBlog={createBlog} />
-				<BlogList blogs={blogs} />
-			</div>
+				<Togglable buttonLabel="create" ref={blogFormRef}>
+					<BlogForm createBlog={createBlog} />
+				</Togglable>
+				<BlogList blogs={blogs} handleUpdateLikes={handleUpdateLikes}
+					deleteBlog={deleteBlog} username={user.username} />
+			</>
 		)
 	}
 
@@ -104,9 +125,7 @@ const App = () => {
 		<div>
 			{user === null ?
 				loginForm() :
-				<div>
-					{blogList()}
-				</div>
+				blogList()
 			}
 		</div>
 	)
