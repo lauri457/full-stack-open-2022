@@ -64,6 +64,8 @@ const App = () => {
 			setBlogs(blogs.concat(blog))
 			setMessage(`A new blog ${title} by ${author} added`)
 		} catch (exception) {
+			if (exception.response.data.error === 'token expired')
+				handleLogout()
 			setMessage(exception.response.data.error)
 		}
 	}
@@ -81,6 +83,10 @@ const App = () => {
 			const newBlogs = blogs.map(blog => blog.id === id ? updatedBlog : blog)
 			setBlogs(newBlogs)
 		} catch (exception) {
+			if (exception.response.data.error === 'token expired') {
+				window.localStorage.removeItem('loggedBlogappuser')
+				setUser(null)
+			}
 			setMessage(exception.response.data.error)
 		}
 	}
@@ -116,7 +122,7 @@ const App = () => {
 					<BlogForm createBlog={createBlog} />
 				</Togglable>
 				<BlogList blogs={blogs} handleUpdateLikes={handleUpdateLikes}
-					deleteBlog={deleteBlog} username={user.username} />
+					deleteBlog={deleteBlog} name={user.name} />
 			</>
 		)
 	}

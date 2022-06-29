@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-const Blog = ({ blog, handleUpdateLikes, deleteBlog, username }) => {
+const Blog = ({ blog, handleUpdateLikes, deleteBlog, name }) => {
 	const [visible, setVisible] = useState(false)
 
 	const showWhenVisible = { display: visible ? '' : 'none' }
@@ -10,7 +10,7 @@ const Blog = ({ blog, handleUpdateLikes, deleteBlog, username }) => {
 		paddingLeft: 2,
 		border: 'solid',
 		borderWidth: 1,
-		marginBottom: 5,
+		marginBottom: 5
 	}
 
 	const toggleVisibility = () => {
@@ -41,20 +41,17 @@ const Blog = ({ blog, handleUpdateLikes, deleteBlog, username }) => {
 	return (
 		<div style={blogStyle}>
 			<div>
-				<p style={{ margin: 0 }}>
-					{blog.title} {blog.author}&nbsp;
-					<button onClick={toggleVisibility}>{visible ? 'hide' : 'view'}</button>
-				</p>
+				<span className='title'>{blog.title} </span>
+				<span className='author'>{blog.author} </span>
+				<button onClick={toggleVisibility}>{visible ? 'hide' : 'view'}</button>
 			</div>
-			<div style={showWhenVisible}>
-				<p style={{ margin: 0 }}>{blog.url}</p>
-				<p style={{ margin: 0 }}>
-					likes {blog.likes}&nbsp;
-					<button onClick={handleLike}>like</button>
-				</p>
-				<p style={{ margin: 0 }}>{blog.user.name}</p>
+			<div style={showWhenVisible} className='togglableDetails'>
+				<span className='url'>{blog.url}</span><br/>
+				<span className='likes'>likes {blog.likes} </span>
+				<button onClick={handleLike}>like</button><br/>
+				<span>{blog.user.name}</span>
 				{
-					blog.user.username === username && deleteButton()
+					blog.user.name === name && deleteButton()
 				}
 			</div>
 		</div>
