@@ -5,16 +5,6 @@ import userEvent from '@testing-library/user-event'
 import BlogForm from './BlogForm'
 
 describe('<BlogForm />', () => {
-	const blog = {
-		title: 'title',
-		author: 'author',
-		url: 'url',
-		likes: 0,
-		user: {
-			name: 'name'
-		}
-	}
-
 	let container
 	const mockHandler = jest.fn()
 
@@ -37,12 +27,9 @@ describe('<BlogForm />', () => {
 		await user.type(inputUrl, 'url')
 		await user.click(sendButton)
 
-		screen.debug()
-
 		expect(mockHandler.mock.calls).toHaveLength(1)
-		console.log(mockHandler.mock.calls)
-		// expect(mockHandler.mock.calls[0][0]).toBe('title')
-		// expect(mockHandler.mock.calls[0][1]).toBe('author')
-		// expect(mockHandler.mock.calls[0][2]).toBe('url')
+		expect(mockHandler.mock.calls[0][0].title).toBe('title')
+		expect(mockHandler.mock.calls[0][0].author).toBe('author')
+		expect(mockHandler.mock.calls[0][0].url).toBe('url')
 	})
 })

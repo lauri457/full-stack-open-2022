@@ -55,7 +55,8 @@ const App = () => {
 		}
 	}
 
-	const createBlog = async (title, author, url) => {
+	const createBlog = async (newBlog) => {
+		const { title, author, url } = newBlog
 		try {
 			const blog = await blogService.create({
 				title, author, url
