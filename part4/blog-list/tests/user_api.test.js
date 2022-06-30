@@ -65,7 +65,7 @@ describe('user creation wont work if username does not pass requirements', () =>
 		const usersAtStart = await helper.usersInDb()
 
 		const newUser = {
-			username: '123',
+			username: '12',
 			password: 'Salainen1!'
 		}
 
