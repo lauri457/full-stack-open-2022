@@ -1,8 +1,6 @@
 const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
-const User = require('../models/user')
 const jwt = require('jsonwebtoken')
-const { usersInDb } = require('../tests/test_helper')
 
 blogsRouter.get('/', async (request, response) => {
 	const blogs = await Blog
@@ -11,7 +9,9 @@ blogsRouter.get('/', async (request, response) => {
 })
 
 blogsRouter.get('/:id', async (request, response) => {
-	const blog = await Blog.findById(request.params.id)
+	const blog = await Blog
+		.findById(request.params.id)
+		.populate('user', { username: 1, name: 1 })
 	if (blog) {
 		response.json(blog)
 	} else {
@@ -21,20 +21,26 @@ blogsRouter.get('/:id', async (request, response) => {
 
 blogsRouter.delete('/:id', async (request, response) => {
 	const decodedToken = jwt.verify(request.token, process.env.SECRET)
-	const user = request.user
+	console.log(request.params)
 	if (!decodedToken.id) {
 		return response.status(401).json({ error: 'token missing or invalid' })
 	}
 
-	const blog = await Blog.findById(request.params.id)
+	const blogToDelete = await Blog.findById(request.params.id)
 
-	if (blog.user.toString() === user.id.toString()) {
-		await Blog.deleteOne({ _id: request.params.id })
-		response.status(204).end()
-	} else {
-		response.status(401).send({ error: "unauthorized operation" })
+	if (!blogToDelete) {
+		return response.status(204).end()
 	}
 
+	if (blogToDelete.user && blogToDelete.user.toString() !== request.user.id) {
+		return response.status(401).json({
+			error: 'only the creator can delete a blog'
+		})
+	}
+
+	await Blog.findByIdAndRemove(request.params.id)
+
+	response.status(204).end()
 })
 
 blogsRouter.post('/', async (request, response) => {
@@ -61,10 +67,12 @@ blogsRouter.post('/', async (request, response) => {
 })
 
 blogsRouter.put('/:id', async (request, response) => {
-	const blog = request.body
-	const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, blog, { new: true })
+	const blog = { ...request.body }
 
-	response.status(204).end()
+	const updatedBlog = await Blog
+		.findByIdAndUpdate(request.params.id, blog, { new: true })
+		.populate('user', { username: 1, name: 1 })
+	response.status(200).json(updatedBlog)
 })
 
 module.exports = blogsRouter

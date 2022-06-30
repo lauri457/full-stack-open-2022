@@ -35,11 +35,11 @@ const Blog = ({ blog, handleUpdateLikes, deleteBlog, name }) => {
 	}
 
 	const deleteButton = () => {
-		return <button onClick={handleDelete}>remove</button>
+		return <button id='del-button' onClick={handleDelete}>remove</button>
 	}
 
 	return (
-		<div style={blogStyle}>
+		<div className='blog' style={blogStyle}>
 			<div>
 				<span className='title'>{blog.title} </span>
 				<span className='author'>{blog.author} </span>
@@ -48,7 +48,7 @@ const Blog = ({ blog, handleUpdateLikes, deleteBlog, name }) => {
 			<div style={showWhenVisible} className='togglableDetails'>
 				<span className='url'>{blog.url}</span><br/>
 				<span className='likes'>likes {blog.likes} </span>
-				<button onClick={handleLike}>like</button><br/>
+				<button id='like-button' onClick={handleLike}>like</button><br/>
 				<span>{blog.user.name}</span>
 				{
 					blog.user.name === name && deleteButton()

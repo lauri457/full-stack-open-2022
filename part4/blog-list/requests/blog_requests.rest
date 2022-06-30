@@ -12,10 +12,10 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-    "title": "Blog about tests",
+    "title": "new blog",
     "author": "T. Ester",
     "url": "www.te.st",
-    "likes": 15
+    "likes": 1111
 }
 
 ###
@@ -23,10 +23,10 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-    "title": "creating a new blog 103",
+    "title": "creating a new blog 104",
     "author": "A. Uthor",
     "url": "www.blogtutorials.com",
-    "userId": "62b3642af7a3d3680604f9cf"
+    "userId": "62b36ac82cfcdacd0a2fb0e5"
 }
 
 ###

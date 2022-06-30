@@ -10,7 +10,7 @@ beforeEach(async () => {
 	await User.deleteMany({})
 
 	const passwordHash = await bcrypt.hash('sekret', 10)
-	const user = new User({ username: 'root', passwordHash })
+	const user = new User({ username: 'root', passwordHash, name: 'superuser' })
 
 	await user.save()
 })
@@ -133,7 +133,7 @@ describe('creation fails with 400 password does not match requirements', () => {
 
 		const newUser = {
 			username: 'username',
-			password: 'abc'
+			password: 'Ab!1'
 		}
 
 		const result = await api

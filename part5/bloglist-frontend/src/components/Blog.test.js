@@ -60,9 +60,3 @@ describe('<Blog />', () => {
 		expect(mockHandler.mock.calls).toHaveLength(2)
 	})
 })
-
-describe('<Blogform />', () => {
-	test('event handler called with right details when new blog is created', () => {
-
-	})
-})

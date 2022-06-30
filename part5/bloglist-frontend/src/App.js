@@ -30,7 +30,7 @@ const App = () => {
 	}, [])
 
 	useEffect(() => {
-		const loggedUserJson = window.localStorage.getItem('loggedBlogappuser')
+		const loggedUserJson = window.localStorage.getItem('loggedBlogappUser')
 		if (loggedUserJson) {
 			const user = JSON.parse(loggedUserJson)
 			setUser(user)
@@ -41,10 +41,10 @@ const App = () => {
 	const handleLogin = async (username, password) => {
 		try {
 			const user = await loginService.login({
-				username, password,
+				username, password
 			})
 			window.localStorage.setItem(
-				'loggedBlogappuser', JSON.stringify(user)
+				'loggedBlogappUser', JSON.stringify(user)
 			)
 			blogService.setToken(user.token)
 			setUser(user)
@@ -72,8 +72,8 @@ const App = () => {
 	}
 
 	const handleLogout = () => {
-		const user = JSON.parse(window.localStorage.getItem('loggedBlogappuser'))
-		window.localStorage.removeItem('loggedBlogappuser')
+		const user = JSON.parse(window.localStorage.getItem('loggedBlogappUser'))
+		window.localStorage.removeItem('loggedBlogappUser')
 		setUser(null)
 		setMessage(`${user.username} logged out`)
 	}
@@ -85,7 +85,7 @@ const App = () => {
 			setBlogs(newBlogs)
 		} catch (exception) {
 			if (exception.response.data.error === 'token expired') {
-				window.localStorage.removeItem('loggedBlogappuser')
+				window.localStorage.removeItem('loggedBlogappUser')
 				setUser(null)
 			}
 			setMessage(exception.response.data.error)
@@ -118,7 +118,7 @@ const App = () => {
 			<>
 				<h2>Blogs</h2>
 				<Notification message={message} />
-				<p>{user.name} logged in <button onClick={handleLogout} >logout</button></p>
+				<p className='loginDetails'>{user.name} logged in <button onClick={handleLogout} >logout</button></p>
 				<Togglable buttonLabel="create" ref={blogFormRef}>
 					<BlogForm createBlog={createBlog} />
 				</Togglable>
