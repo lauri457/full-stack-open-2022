@@ -1,15 +1,18 @@
 import { useDispatch } from 'react-redux'
+import { createAnecdote } from '../reducers/anecdoteReducer'
+import { setNotification, removeNotification, createNotification } from '../reducers/notificationReducer'
+import { setFilter } from '../reducers/filterReducer'
 
 const AnecdoteForm = () => {
 	const dispatch = useDispatch()
 
-	const handleCreateAnecdote = (event) => {
+	const handleCreateAnecdote = async (event) => {
 		event.preventDefault()
-		dispatch({ type: 'anecdotes/createAnecdote', payload: event.target.anecdote.value })
-		dispatch({ type: 'notification/setNotification', payload: `you added anecdote '${event.target.anecdote.value}'` })
+		dispatch(createAnecdote(event.target.anecdote.value))
+		dispatch(createNotification(`you added anecdote '${event.target.anecdote.value}'`, 5))
 		event.target.reset()
 		document.getElementById('filter').value = ''
-		setTimeout(() => dispatch({ type: 'notification/removeNotification' }), 5000)
+		dispatch(setFilter(null))
 	}
 
 	return (
@@ -22,5 +25,6 @@ const AnecdoteForm = () => {
 		</>
 	)
 }
+
 
 export default AnecdoteForm
