@@ -1,6 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { createNotification } from './notificationReducer'
 import blogService from '../services/blogs'
+import userService from '../services/user'
+import { logOutUser } from './loginReducer'
 
 const blogSlice = createSlice({
 	name: 'blogs',
@@ -46,8 +48,10 @@ export const createBlog = (blog) => {
 				)
 			)
 		} catch (exception) {
-			// if (exception.response.data.error === 'token expired')
-			// 	handleLogout()
+			if (exception.response.data.error === 'token expired') {
+				dispatch(logOutUser())
+				userService.clearUser()
+			}
 			dispatch(createNotification(exception.response.data.error, 5))
 		}
 	}
@@ -72,9 +76,21 @@ export const updateLikes = (id, blogToUpdate) => {
 			dispatch(updateBlog(updatedBlog))
 		} catch (exception) {
 			if (exception.response.data.error === 'token expired') {
-				window.localStorage.removeItem('loggedBlogappUser')
-				// dispatch(setUser(null))
+				dispatch(logOutUser())
+				userService.clearUser()
 			}
+			dispatch(createNotification(exception.response.data.error, 5))
+		}
+	}
+}
+
+export const createComment = (id, comment) => {
+	return async (dispatch) => {
+		try {
+			const blog = await blogService.addComment(id, comment)
+			dispatch(updateBlog(blog))
+			dispatch(createNotification('Comment added', 5))
+		} catch (exception) {
 			dispatch(createNotification(exception.response.data.error, 5))
 		}
 	}

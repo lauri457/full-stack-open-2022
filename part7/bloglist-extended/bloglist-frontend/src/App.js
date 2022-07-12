@@ -6,6 +6,7 @@ import BlogForm from './components/BlogForm'
 import Notification from './components/Notification'
 import User from './components/User'
 // import Togglable from './components/Togglable'
+// import Togglable from './components/Togglable'
 import UserList from './components/UserList'
 import { useDispatch, useSelector } from 'react-redux'
 import { initializeBlogs } from './reducers/blogReducer'
@@ -13,7 +14,7 @@ import { initializeUsers } from './reducers/userReducer'
 // import { loggedInUser, logOutUser } from './reducers/loginReducer'
 import { loggedInUser } from './reducers/loginReducer'
 import { Route, Routes } from 'react-router-dom'
-import Welcome from './components/Welcome'
+import Navigation from './components/Navigation'
 import Blog from './components/Blog'
 
 const App = () => {
@@ -66,18 +67,22 @@ const App = () => {
 	}
 
 	return (
-		<div>
-			{/* {user === null ? loginForm() : blogList()} */}
-			<Welcome />
-			<Notification />
-			<Routes>
-				<Route path="/users/:id" element={<User />} />
-				<Route path="/blogs/:id" element={<Blog />} />
-				<Route path="/create" element={<BlogForm />}></Route>
-				<Route path="/users" element={<UserList />}></Route>
-				<Route path="/" element={<BlogList />}></Route>
-			</Routes>
-		</div>
+		<>
+			<Navigation />
+			<div style={{ marginLeft: 5 }}>
+				<Notification />
+				{/* <Togglable buttonLabel="create new" ref={blogFormRef}>
+					<BlogForm />{' '}
+				</Togglable> */}
+				<Routes>
+					<Route path="/users/:id" element={<User />} />
+					<Route path="/blogs/:id" element={<Blog />} />
+					<Route path="/create" element={<BlogForm />}></Route>
+					<Route path="/users" element={<UserList />}></Route>
+					<Route path="/" element={<BlogList />}></Route>
+				</Routes>
+			</div>
+		</>
 	)
 }
 
