@@ -1,6 +1,7 @@
 import { useDispatch } from 'react-redux'
 import { useField } from '../hooks'
 import { logInUser } from '../reducers/loginReducer'
+import Notification from './Notification'
 
 const Login = () => {
 	const dispatch = useDispatch()
@@ -15,19 +16,23 @@ const Login = () => {
 	}
 
 	return (
-		<form onSubmit={onLogin}>
-			<div>
-				username
-				<input {...username} />
-			</div>
-			<div>
-				password
-				<input {...password} type="password" />
-			</div>
-			<button id="login-button" type="submit">
-				login
-			</button>
-		</form>
+		<>
+			<h2>Log in to application</h2>
+			<Notification />
+			<form onSubmit={onLogin}>
+				<div>
+					username
+					<input {...username} />
+				</div>
+				<div>
+					password
+					<input {...password} type="password" />
+				</div>
+				<button id="login-button" type="submit">
+					login
+				</button>
+			</form>
+		</>
 	)
 }
 
