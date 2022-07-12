@@ -1,0 +1,12 @@
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+    "username": "lauri",
+    "name": "aaaa",
+    "password": "Salasana1!!",
+	"blogs": []
+}
+
+###
+DELETE http://localhost:3003/api/users/62b3642af7a3d3680604f9cf

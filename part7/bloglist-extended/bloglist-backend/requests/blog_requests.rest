@@ -1,0 +1,48 @@
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+    "author": "T. Ester",
+    "url": "www.te.st",
+    "likes": 15
+}
+
+###
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+    "title": "new blog",
+    "author": "T. Ester",
+    "url": "www.te.st",
+    "likes": 1111
+}
+
+###
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+    "title": "creating a new blog 104",
+    "author": "A. Uthor",
+    "url": "www.blogtutorials.com",
+    "userId": "62b36ac82cfcdacd0a2fb0e5"
+}
+
+###
+DELETE http://localhost:3003/api/blogs/62b3697aaf105db8e6dedee7
+###
+
+GET http://localhost:3003/api/blogs
+
+###
+
+PUT http://localhost:3003/api/blogs/62b2d584bdc4cb4051dcdabb
+Content-Type: application/json
+
+{
+    "title": "Changed",
+    "author": "Changed",
+    "url": "www.changed.com",
+    "likes": 7777
+}
