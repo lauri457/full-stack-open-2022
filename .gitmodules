@@ -1,3 +1,0 @@
-[submodule "part3/phonebook-backend"]
-	path = part3/phonebook-backend
-	url = git@github.com:lauri457/phonebook.git
