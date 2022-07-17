@@ -1,6 +1,7 @@
 import { useDispatch } from 'react-redux'
 import { useField } from '../hooks'
 import { createBlog } from '../reducers/blogReducer'
+import { FloatingLabel, Form } from 'react-bootstrap'
 
 const BlogForm = () => {
 	const dispatch = useDispatch()
@@ -26,23 +27,32 @@ const BlogForm = () => {
 	return (
 		<div>
 			<h2>create new</h2>
-			<form onSubmit={handleCreateBlog}>
-				<div>
-					title
-					<input {...title} />
-				</div>
-				<div>
-					author
-					<input {...author} />
-				</div>
-				<div>
-					url
-					<input {...url} />
-				</div>
+			<Form onSubmit={handleCreateBlog}>
+				<FloatingLabel
+					controlId="floatingInput"
+					label="Title"
+					className="mb-3"
+				>
+					<Form.Control {...title} placeholder="Title" />
+				</FloatingLabel>
+				<FloatingLabel
+					controlId="floatingInput"
+					label="Author"
+					className="mb-3"
+				>
+					<Form.Control {...author} placeholder="Author" />
+				</FloatingLabel>
+				<FloatingLabel
+					controlId="floatingInput"
+					label="Url"
+					className="mb-3"
+				>
+					<Form.Control {...url} placeholder="URL" />
+				</FloatingLabel>
 				<button id="submit-button" type="submit">
 					create
 				</button>
-			</form>
+			</Form>
 		</div>
 	)
 }

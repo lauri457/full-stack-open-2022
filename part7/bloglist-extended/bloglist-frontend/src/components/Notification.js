@@ -1,26 +1,17 @@
 import { useSelector } from 'react-redux'
+import { Alert } from 'react-bootstrap'
 
 const Notification = () => {
 	const notification = useSelector((state) => state.notification)
 	const errorRegex = /fail|Invalid|malformatted|expired|only the creator/
+	const notificationType = errorRegex.test(notification)
+		? 'warning'
+		: 'success'
 	if (notification === null) {
 		return null
 	}
 
-	const notificationStyle = {
-		color: errorRegex.test(notification) ? 'red' : 'green',
-		background: 'lightgrey',
-		fontSize: 20,
-		borderStyle: 'solid',
-		borderRadius: 5,
-		padding: 10,
-		marginBottom: 10
-	}
-	return (
-		<p className="error" style={notificationStyle}>
-			{notification}
-		</p>
-	)
+	return <Alert variant={notificationType}>{notification}</Alert>
 }
 
 export default Notification

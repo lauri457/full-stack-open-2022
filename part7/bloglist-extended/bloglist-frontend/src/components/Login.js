@@ -2,6 +2,7 @@ import { useDispatch } from 'react-redux'
 import { useField } from '../hooks'
 import { logInUser } from '../reducers/loginReducer'
 import Notification from './Notification'
+import { Form, Button } from 'react-bootstrap'
 
 const Login = () => {
 	const dispatch = useDispatch()
@@ -19,19 +20,17 @@ const Login = () => {
 		<>
 			<h2>Log in to application</h2>
 			<Notification />
-			<form onSubmit={onLogin}>
-				<div>
-					username
-					<input {...username} />
-				</div>
-				<div>
-					password
-					<input {...password} type="password" />
-				</div>
-				<button id="login-button" type="submit">
-					login
-				</button>
-			</form>
+			<Form onSubmit={onLogin}>
+				<Form.Group>
+					<Form.Label>username</Form.Label>
+					<Form.Control {...username} />
+					<Form.Label>password</Form.Label>
+					<Form.Control {...password} type="password" />
+					<Button variant="primary" id="login-button" type="submit">
+						login
+					</Button>
+				</Form.Group>
+			</Form>
 		</>
 	)
 }
